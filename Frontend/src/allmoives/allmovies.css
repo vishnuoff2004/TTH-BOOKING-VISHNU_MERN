@@ -1,0 +1,16 @@
+.small{
+    font-size: 12px;
+}
+.theater-card-img{
+ height: 220px;
+ min-height: 140px;
+ object-fit: cover;
+}
+.theater-card{
+    height: 330px;  
+}
+.theater-card:hover{
+  transform: scale(1.03);
+  transition: 0.3s;
+  transition-timing-function: ease;
+}

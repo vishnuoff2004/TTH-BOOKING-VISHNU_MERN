@@ -1,0 +1,35 @@
+.select-tag{
+    outline: none;
+    border:none;
+    background-color: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color:rgb(220, 227, 234);
+}
+.hover-gold:hover{
+    border:2px solid yellow ;
+    border-radius: 5px;
+}
+.gold-m{
+    color:yellow;
+}
+
+.border-doted{
+  border:2px rgb(255, 255, 255,0.5);
+   border-bottom-style: dashed;
+}
+.bill{
+    border-radius: 10px 10px 10px 10px ;
+    background-color: red;
+}
+.armchair{
+    object-fit: contain ;
+    transform: rotateX(180deg);
+}
+.screen{
+    width:100%;
+    border: 5px solid white;
+    border-radius: 10px;
+}
+.slideBtn:hover{
+    opacity: 0.5;
+}

@@ -1,0 +1,80 @@
+.carousel-indicators {
+  bottom: 50px;   
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicators .active {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 5px #ffcc00; /* glowing effect */
+}
+
+.carousel-indicators [data-bs-target]:hover {
+  background-color: #ffffffcc;
+}
+
+.nav-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+.main-img{
+    width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+}
+.contents-overlay{
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  z-index:10;
+  width: 100%;
+}
+.booking-con{
+  background-color: rgba(128, 128, 128,0.4);
+  padding: 10px;
+  border-radius: 10px;
+  color:white
+}
+.btnbooking:hover{
+ color:grey !important;
+}
+.userAbout{
+  background-color: rgba(128, 128, 128,0.4);
+  padding: 10px;
+  border-radius: 10px;
+  color:white
+}
+.logout-Btn:hover{
+ color:grey !important;
+}
+.userDetail-con:hover{
+ color:grey !important;
+ opacity:0.5
+}
+.homeNav-Comp:hover{
+color:grey !important;
+opacity:0.5
+}
+.user-footer{
+  background-color: grey;
+}
+.offcanvas-body {
+  scrollbar-width: none;      
+  -ms-overflow-style: none;   
+}
+.offcanvas-body::-webkit-scrollbar {
+  display: none; 
+}

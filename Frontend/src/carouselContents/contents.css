@@ -1,0 +1,22 @@
+.gold{
+    color:#fee505;
+    font-weight: 700;
+}
+.body{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.button:hover{
+    background-color:#fee505 ;
+    color:black;
+}
+
+.button{
+    border:1px solid #fee505 ;
+    color:#fee505;
+    background-color: transparent;
+    margin-right: 10px;
+}
+.rating{
+    border: 1px solid white;
+    color: white;
+}

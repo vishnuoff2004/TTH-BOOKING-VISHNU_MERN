@@ -1,0 +1,644 @@
+
+.movie-section{
+    color: rgb(230, 230, 230);
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #cd5b5b33 !important;
+}
+.add-movie-btn{
+    width: 120px;
+}
+.movie-section input{
+    background-color: grey;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+}
+.movie-section select{
+    background-color: grey ;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+
+}
+.Admin-con{
+    background-color: #E6E6FA ;
+    color:#000000;
+    padding:0 50px 0 50px;
+    height: 100vh;
+}
+
+.movie-section div{
+    padding: 0 5px 0 5px;
+}
+
+.movie-logo{
+    color: white;
+    font-size: 25px;
+}
+
+.theater-logo{
+    color: white;
+    font-size: 25px;
+}
+
+.theater-con{
+    color: rgb(230, 230, 230);
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #cd5b5b33 !important;
+}
+
+.theater-con input{
+    background-color: grey;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+
+}
+.add-theater-btn{
+    width: 120px;
+    margin: 0 0 0 10px ;
+}
+.screen-sec{
+    color: rgb(230, 230, 230);
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #cd5b5b33 !important;
+}
+.screen-sec input{
+    background-color: grey;
+    width: 100%;
+    color: white;
+    border-radius: 5px;
+}
+.add-screen-btn{
+    width: 120px;
+}
+
+.screen-logo{
+    color: white;
+    font-size: 25px;  
+}
+.upload-sec{
+    color: rgb(230, 230, 230);
+    padding: 12px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background-color: #cd5b5b33 !important;
+}
+.upload-sec input{
+    background-color: grey;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+}
+.upload-sec select{
+    background-color: grey;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+}
+.upload-logo{
+    color: white;
+    font-size: 25px; 
+}
+/* GENERAL LAYOUT */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background: #0f0f0f;
+  color: white;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: #1a0e0e;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ddd;
+  transition: 0.2s;
+}
+
+.menu li:hover,
+.menu li.active {
+  background: #8b1f2a;
+  color: white;
+}
+
+/* SIDEBAR FOOTER */
+.sidebar-footer {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.admin-avatar {
+  width: 60px;
+  border-radius: 50%;
+}
+
+.admin-name {
+  margin: 8px 0 0;
+  font-weight: 700;
+}
+
+.admin-email {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #aaa;
+  margin-top: -5px;
+}
+
+.bell-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #eee;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* SEARCH BAR */
+.search-wrapper {
+  margin: 20px 0;
+}
+
+.search-input {
+  width: 100%;
+  background: #1d1d1d;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid #333;
+  color: white;
+  font-size: 16px;
+}
+
+/* MOVIE GRID */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 25px;
+  margin-top: 25px;
+}
+
+/* MOVIE CARD */
+.movie-card {
+  background: #1b1b1b;
+  border-radius: 16px;
+  overflow: hidden;
+  padding-bottom: 15px;
+  box-shadow: 0 0 10px #000;
+  transition: 0.2s;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.img-box {
+  height: 280px;
+  overflow: hidden;
+}
+
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* CARD BODY */
+.movie-body {
+  padding: 15px;
+}
+
+.movie-body h5 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+/* STATUS BADGES */
+.badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.showing {
+  background: #2fa84f;
+}
+
+.upcoming {
+  background: #d39625;
+}
+
+/* WRAPPER */
+.admin-wrapper {
+  display: flex;
+  background: #0e0e0e;
+  height: 100vh;
+}
+
+/* SIDEBAR */
+.admin-sidebar {
+  width: 260px;
+  background: #1a0009;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.sidebar-title {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.sidebar-menu li {
+  list-style: none;
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.sidebar-menu li:hover,
+.sidebar-menu .active {
+  background: #8a1d29;
+  font-weight: 600;
+}
+
+/* SIDEBAR FOOTER */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+.footer-avatar {
+  width: 60px;
+  border-radius: 50%;
+}
+
+.footer-email {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* CONTENT */
+.admin-content {
+  flex: 1;
+  padding: 40px;
+  color: white;
+  overflow-y: auto;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  color: #aaa;
+  margin-top: -5px;
+}
+
+/* SEARCH */
+.search-box {
+  width: 100%;
+  background: #1e1e1e;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  color: white;
+}
+
+/* MOVIE CARD */
+.movie-card {
+  background: #1c1c1c;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #000;
+  padding-bottom: 15px;
+}
+
+.movie-img {
+  height: 260px;
+  overflow: hidden;
+}
+
+.movie-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 15px;
+}
+
+.movie-name {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.movie-genre {
+  font-size: 14px;
+  color: #bbbbbb;
+}
+
+/* STATUS BADGES */
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+.showing {
+  background: #2fa84f;
+}
+
+.upcoming {
+  background: #d39625;
+}
+
+/* CARD BUTTONS */
+.movie-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.carousel-inp-con input{
+  background-color: rgb(223, 223, 223);
+  margin: 3px;
+}
+.carousel-thumb {
+  width: 120px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: #ddd;
+}
+
+
+
+  table.custom-table th,
+  table.custom-table td {
+      padding: 10px;
+      vertical-align: top;
+  }
+
+  table.custom-table th {
+      background-color: #222;
+      font-weight: bold;
+  }
+
+  table.custom-table tr {
+      background-color: #cd5b5b33;
+      border-bottom: 1px solid rgba(255, 255, 255,0.3);
+  }
+
+
+
+.custom-table{
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* FULL SCREEN BACKGROUND */
+.admin-login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #000000, #111111, #000000);
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* LOGIN CARD */
+.admin-card {
+    width: 100%;
+    max-width: 380px;
+    background: #0d0d0d;
+    border: 1px solid #1f1f1f;
+    padding: 40px 35px;
+    border-radius: 18px;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.8);
+}
+
+/* HEADING */
+.admin-title {
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+}
+
+/* LABEL */
+label {
+    color: #bbbbbb;
+    font-size: 14px;
+}
+
+/* INPUTS */
+.admin-input {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 22px;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    background-color: #1c1c1c;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.admin-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0px 0px 8px rgba(59,130,246,0.7);
+}
+
+/* PASSWORD FIELD WRAPPER */
+.password-wrapper {
+    position: relative;
+}
+
+/* EYE BUTTON */
+.eye-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #aaa;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.eye-btn:hover {
+    color: white;
+}
+
+/* LOGIN BUTTON */
+.admin-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 13px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-btn:hover {
+    background: #1e4fd0;
+}
+
+.admin-btn:active {
+    transform: scale(0.97);
+}
+
+/* PLACEHOLDER COLOR */
+.admin-input::placeholder {
+    color: #777;
+}
+
+
+.admin-up-form-Con input,
+.admin-up-form-Con select {
+  background-color: grey;
+  border-radius: 3px;
+  color: white !important;   
+  padding-left: 10px;
+  width: 100%;
+
+}
+
+.admin-up-form-Con input::placeholder {
+  color: #ccc !important;  
+}
+
+.admin-up-form-Con span{
+  color:rgba(204, 204, 204,0.5)
+}
+.back-arrow{
+  color:white;
+  background-color:rgba(205, 91, 91, 0.3);
+  font-size: 23px;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.back-arrow:hover{
+  color:rgba(255, 255, 255,0.5);
+  background-color:rgba(205, 91, 91, 0.3);
+  font-size: 23px;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.tfoot-update tr{
+  background-color: #222 !important;
+}
+
+.tfoot-update .btn{
+  position: relative;
+  background-color: grey;
+  color: white;
+  font-weight: bold;
+}
+
+.tfoot-update .btn:hover{
+  position: relative;
+  background-color: rgba(128, 128, 128,0.5);
+  color: white;
+  font-weight: bold;
+}
+.admin-logout-btn:hover{
+   opacity: 0.5;
+}
+.Admin_overflow{
+  overflow-x: hidden;
+  overflow: auto;
+  padding:10px 0px 0px 0px  ;
+}
+.Admin_overflow::-webkit-scrollbar{
+  display: none;
+}
+.Admin_overflow div{
+  margin: 10px 5px 0px 5px ;
+}
+
+.Admin_overflow div:hover{
+  transform: translateY(-5px);
+}
+
+.Admin_overflow div{
+  transition: transform 0.5s  ease-in-out;
+}
