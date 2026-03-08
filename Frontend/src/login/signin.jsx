@@ -30,6 +30,7 @@ export default function SignUp(){
 
         try{
             const res = await axios.post(`${API}/Auth/signup`,user)
+            alert(res.data.msg)
             navigate("/")
         }
         catch(error){

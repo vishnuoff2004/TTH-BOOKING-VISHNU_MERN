@@ -1,362 +1,140 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import "./Admin.css";
+import React from 'react'
+import AdminNav from './AdminNav'
+import { useEffect,useState } from 'react'
+import axios from "axios"
 import API from "../api";
-import Admin from "./Admin";
-import AdminNav from "./AdminNav";
-import UpdateCarouselComponent from "./UpdateCarouselComponent";
-import { useNavigate } from "react-router-dom";
-import { MovieContext } from "../contextApi/MovieProvider";
 
-export default function AdminDashboard() {
-  const navigate = useNavigate();
 
-  const [movies, setMovies] = useState([]);
-  const [filteredMovie, setFilteredMovie] = useState([]);
-  const [search, setSearch] = useState("");
-  const [updateCarousel, setUpdateCarousel] = useState(null);
-  const [carouselItems, setCarouselItems] = useState([]);
+const Adminbookingmanagement = () => {
+    const [bookings,setBookings] = useState([])
+    const [filtered,setFiltered] = useState([])
+    const [search,setSearch] = useState('')
+    const [currpage,setCurrPage] = useState(1);
+    const [valPerPage,setValPerPage] = useState(4)
 
-  const {
-    setMovieForm,
-    setTheaterForm,
-    setScreenForm,
-    setShowTimesTheaterId,
-    setUpdateShowId,
-  } = useContext(MovieContext);
+    const data = search ? filtered : bookings;
 
-  useEffect(() => {
-    const searchItem = search.toLowerCase();
+    const lastIndex = currpage * valPerPage;
+    const firstIndex = lastIndex - valPerPage;
 
-    setFilteredMovie(
-      movies.filter((i) => {
-        const lowercase = i.movie.movie_name.toLowerCase();
-        return lowercase.includes(searchItem);
-      })
-    );
-  }, [search, movies]);
+    const limitBookings = data.slice(firstIndex, lastIndex);
+    const totPages = Math.ceil(data.length / valPerPage);
 
-  useEffect(() => {
-    fetchMovies();
-    getCarousel();
-  }, []);
 
-  async function fetchMovies() {
-    try {
-      const token = localStorage.getItem("adminToken");
+    useEffect(()=>{
+        setFiltered(bookings.filter(i => {const movie = i.movie.movie_name.toLowerCase();return movie.includes(search.toLowerCase())}))
+    },[search,bookings])
+ 
 
-      if (!token) {
-        navigate("/adminlogin");
-        return;
-      }
+    useEffect(()=>{
+        fetchBookings();
+    },[])
 
-      const res = await axios.get(`${API}/adminDashboard/movies`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    useEffect(() => {
+    setCurrPage(1);
+}, [search]);
 
-      setMovies(res.data.moviesCollection);
-    } catch (error) {
-      if (error.response?.status === 401) {
-        navigate("/adminlogin");
-      }
-      console.log(error);
+    async function fetchBookings(){
+        let res = await axios.get(`${API}/bill/adminBookings`)
+        setBookings(res.data.adminBookings)
     }
-  }
 
-  async function getCarousel() {
-    try {
-      const res = await axios.get(`${API}/display/dis`);
-      setCarouselItems(res.data.carouItems);
-    } catch (err) {
-      console.log(err);
+    async function deleteFn(id){
+        let res = await axios.delete(`${API}/bill/delteBookings/${id}`)
+        console.log(res.data.msg)
+        setFiltered(prev => (prev.filter(i => i._id != id)))
     }
-  }
 
-  async function Del(id) {
-    try {
-      const token = localStorage.getItem("adminToken");
-
-      const res = await axios.delete(
-        `${API}/adminDashboard/deleteMovies/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      alert(res.data.msg);
-      setMovies((prev) => prev.filter((i) => i._id !== id));
-    } catch (error) {
-      console.log(error.response?.data?.msg);
+function prevBtn() {
+    if (currpage <= 1) {
+        setCurrPage(1);
     }
-  }
-
-  function updateFn(item) {
-    setMovieForm({
-      id: item.movie._id,
-      movie_name: item.movie.movie_name,
-      genre: item.movie.genre,
-      language: item.movie.language,
-      duration: item.movie.duration,
-      image: null,
-    });
-
-    setTheaterForm({
-      theater_name: item.theater.theater_name,
-      location: item.theater.location,
-    });
-
-    setScreenForm({
-      screen_name: item.screen.screen_name,
-      rows: item.screen.rows,
-      cols: item.screen.cols,
-    });
-
-    setShowTimesTheaterId(item.theater._id);
-    setUpdateShowId(item._id);
-
-    navigate("/adminUpdateForm");
-  }
-
-  async function deleteFn4Carou(id) {
-    try {
-      const res = await axios.delete(`${API}/display/dis/${id}`);
-      setCarouselItems((prev) => prev.filter((i) => i._id !== id));
-      console.log(res.data.msg);
-    } catch (err) {
-      console.log(err);
+    else{
+        setCurrPage(curr => curr - 1 )
     }
-  }
+}
 
-  function closeCarouselModal() {
-    const modalElement = document.getElementById("staticBackdrop");
-    const modalInstance = Modal.getInstance(modalElement);
-
-    if (modalInstance) {
-      modalInstance.hide();
+function nextBtn() {
+    if (currpage >= totPages) {
+        setCurrPage(totPages)
     }
-  }
+    else{
+        setCurrPage(curr => curr + 1);
+    }
+}
+
 
   return (
-    <div className="row">
-      <div className="col col-lg-3 col-md-3">
-        <AdminNav />
-      </div>
+    <div className=' row'>
 
-      <div className="col col-lg-8 col-md-8">
-        <div className="row mt-5">
-          <h3>Dashboard</h3>
-          <div>Manage your movie collection and carousel content</div>
-        </div>
-
-        <div className="row mt-5">
-          <div>
-            <div
-              className="d-flex rounded-3"
-              style={{
-                position: "relative",
-                backgroundColor: "black",
-                maxWidth: "300px",
-                border: "2px solid grey",
-              }}
-            >
-              <input
-                type="text"
-                className="mx-auto"
-                placeholder="search..."
-                style={{
-                  border: "none",
-                  outline: "none",
-                  backgroundColor: "transparent",
-                  color: "white",
-                }}
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-              />
-              <ion-icon
-                name="search-outline"
-                style={{
-                  position: "absolute",
-                  top: "5px",
-                  left: "15px",
-                  color: "white",
-                }}
-              ></ion-icon>
-            </div>
-          </div>
-
-          <div className="d-flex Admin_overflow flex-wrap gap-3 mt-3">
-            {filteredMovie.map((i, index) => (
-              <div key={index}>
-                <div
-                  className="card"
-                  style={{
-                    height: "280px",
-                    width: "200px",
-                    backgroundColor: "rgba(205, 91, 91, 0.3)",
-                  }}
-                >
-                  <img
-                    src={i.movie.image}
-                    alt=""
-                    className="card-img-top"
-                    style={{ height: "150px", objectFit: "cover" }}
-                  />
-                  <div className="card-body my-0 py-0 pt-1">
-                    <div className="card-title fw-bold text-light p-0 my-0">
-                      {i.movie.movie_name.length > 15
-                        ? i.movie.movie_name.slice(0, 15) + "..."
-                        : i.movie.movie_name}
-                    </div>
-
-                    <p className="card-text text-secondary">
-                      {i.movie.genre.join(", ")}
-                    </p>
-
-                    <div className="d-flex justify-content-between">
-                      <button
-                        className="btn bg-danger"
-                        style={{ color: "pink" }}
-                        onClick={() => updateFn(i)}
-                      >
-                        update
-                      </button>
-
-                      <button
-                        className="btn bg-secondary"
-                        style={{ color: "white" }}
-                        onClick={() => Del(i._id)}
-                      >
-                        delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="d-flex justify-content-between mt-4">
-          <h5 className="fw-bold">Carousel Management</h5>
-
-          <button
-            type="button"
-            className="btn bg-danger text-light fw-bold"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          >
-            + Add New Slide
-          </button>
-        </div>
-
-        <div
-          className="row rounded-3 mt-3 px-3 mb-3"
-          style={{ backgroundColor: "rgba(205, 91, 91, 0.3)" }}
-        >
-          {carouselItems.map((i, index) => (
-            <div className="row my-3" key={index}>
-              <div className="container col-lg-10">
-                <div className="d-flex">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <ion-icon
-                      className="m-0 p-0"
-                      name="ellipsis-vertical-outline"
-                    ></ion-icon>
-                    <ion-icon
-                      className="m-0 p-0"
-                      name="ellipsis-vertical-outline"
-                    ></ion-icon>
-                  </div>
-
-                  <div>
-                    <img
-                      src={i.image}
-                      alt=""
-                      className="mx-3"
-                      style={{
-                        width: "150px",
-                        height: "80px",
-                        objectFit: "cover",
-                        borderRadius: "10px",
-                        overflow: "hidden",
-                        backgroundPosition: "center",
-                      }}
-                    />
-                  </div>
-
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <h6>{i.title}</h6>
-                      <p>{i.theme}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col col-lg-2">
-                <div className="d-flex justify-content-around align-items-center h-100">
-                  <ion-icon
-                    name="pencil-outline"
-                    onClick={() => setUpdateCarousel(i)}
-                    style={{ cursor: "pointer" }}
-                  ></ion-icon>
-
-                  <ion-icon
-                    name="trash-bin-outline"
-                    onClick={() => deleteFn4Carou(i._id)}
-                    style={{ cursor: "pointer" }}
-                  ></ion-icon>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div
-          className="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabIndex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content bg-dark">
-              <div className="modal-header">
-                <h1
-                  className="modal-title fs-5 text-light"
-                  id="staticBackdropLabel"
-                >
-                  Add Carousel
-                </h1>
-
-                <button
-                  type="button"
-                  className="btn-close bg-light"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-
-              <div className="modal-body">
-                <Admin
-                  refreshCarousel={getCarousel}
-                  closeModal={closeCarouselModal}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {updateCarousel && (
-        <UpdateCarouselComponent updateCarousel={updateCarousel} />
-      )}
+    <div className='col col-lg-2'>
+    <AdminNav></AdminNav>
     </div>
-  );
+
+    <div className="container col col-lg-9 me-4">
+        <div className='d-flex justify-content-between mt-5'>
+            <h1>Manage Bookings</h1>
+        <div>
+          <div className="d-flex rounded-3" style={{position:'relative',backgroundColor:'black',maxWidth:'300px',border:'2px solid grey'}}>
+            <input type="text" className="ps-5" placeholder="search Movie..." style={{border:'none',outline:'none',backgroundColor:'rgba(205, 91, 91, 0.3)',color:'white'}} onChange={(e)=>setSearch(e.target.value)} value={search}/>
+            <ion-icon className="" name="search-outline" style={{position:'absolute',top:"5px",left:'15px',color:'white'}}></ion-icon>
+          </div>
+        </div>
+        </div>
+            <div className='table-con row mt-5 '>
+                <table className="custom-table" >
+                    <thead >
+                    <tr>
+                        <th>Booking Id</th>
+                        <th>Customer Name</th>
+                        <th>Show</th>
+                        <th>Date</th>
+                        <th>theater</th>
+                        <th>screen</th>
+                        <th>Seats</th>
+                        <th>total price</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                       {
+                        limitBookings.map((i,index)=>(
+                            <tr key={index}>
+                                <td>{i.user.email}</td>
+                                <td>{i.user.fullname}</td>
+                                <td>{i.movie.movie_name}</td>
+                                <td>date</td>
+                                {/* <td>{i.datenow}</td> */}
+                                <td>{i.theater.theater_name}</td>
+
+
+                                <td>{i.screen.screen_name}</td>
+                                <td style={{ whiteSpace: "pre-line" }}>{i.seats.join("\n")}</td>
+                                <td>{i.tot}</td>
+                                <td>
+                                    <button onClick={()=>deleteFn(i._id)} className='btn bg-danger' style={{color:'white'}}><ion-icon name="trash-outline"></ion-icon></button>
+                                </td>
+
+                            </tr>
+                        ))
+                       }
+                    </tbody>
+                    <tfoot className='tfoot-update'>
+                        <tr>
+                            <td colSpan={7} className='ps-5'>showing {currpage}-{totPages} </td>
+                            <td colSpan={3} >
+                                <button className='btn mx-5 ps-5  py-1' onClick={prevBtn}><ion-icon name="chevron-back-outline" className="pe-1" style={{fontSize:'20px',position:'absolute',top:'6px',left:"5px"}}></ion-icon> <span className=''>Previous</span> </button>
+                                <button className='btn mx-3  pe-5 py-1' onClick={nextBtn}>Next <ion-icon name="chevron-forward-outline" style={{fontSize:'20px',position:'absolute',bottom:'6px', right:"5px"}}></ion-icon> </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+    </div>
+
+    </div>
+  )
 }
+
+export default Adminbookingmanagement

@@ -74,19 +74,19 @@ const Admin1 = () => {
               "Content-Type":"multipart/form-data"
             }
           })
-          console.log(res.data.message)
+          alert(`movie add successfully`,res.data.message)
         }
         catch(error){
           console.log("error movie")
           if(error.response.data){
-            console.log(error.response.data.message)
+            alert(error.response.data.message)
           }
         }
       }
       else if(name === "theater"){
         try{
           const res = await axios.post(`${API}/theaters/theater`,theater)
-          console.log(res.data.message)
+          alert(`theater add successfully`,res.data.message)
         }
         catch(error){
           console.log("error theater")
@@ -96,11 +96,11 @@ const Admin1 = () => {
       else{
         try{
           const res = await axios.post(`${API}/screens/screen`,screen)
-          console.log(res.data.message)
+          alert(res.data.message)
         }
         catch(error){
           if(error.response.data){
-            console.log(error.response.data.message)
+            alert(error.response.data.message)
           }
         }
       }

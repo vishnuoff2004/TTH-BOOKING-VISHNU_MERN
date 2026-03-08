@@ -33,3 +33,6 @@
 .slideBtn:hover{
     opacity: 0.5;
 }
+.hover-color:hover{
+    color:black;
+}

@@ -18,20 +18,20 @@ export default function Login(){
 
     // const api = "http://localhost:5000/Auth"
 
-    async function os(){
-        try{
-            const res = await axios.post(`${API}/Auth/login`,user)
-            alert(res.data.message)
-            localStorage.setItem("tokennnnnnn",res.data.token)
-            localStorage.setItem("id",res.data.id)
-            localStorage.setItem("username",res.data.username)
-            localStorage.setItem("email",res.data.email)
-            navigate("/home")
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
+async function os() {
+  try {
+    const res = await axios.post(`${API}/Auth/login`, user);
+    alert(res.data.message);
+    localStorage.setItem("tokennnnnnn", res.data.token);
+    localStorage.setItem("id", res.data.id);
+    localStorage.setItem("username", res.data.username);
+    localStorage.setItem("email", res.data.email);
+    navigate("/home");
+  } catch (error) {
+    console.log("LOGIN ERROR:", error);
+    alert(error.response?.data?.message || error.response?.data?.error || "Something went wrong");
+  }
+}
 
     return(
         <>

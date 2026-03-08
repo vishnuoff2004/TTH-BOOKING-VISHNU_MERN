@@ -123,7 +123,7 @@ export default function AdminDashboard() {
     try {
       const res = await axios.delete(`${API}/display/dis/${id}`);
       setCarouselItems((prev) => prev.filter((i) => i._id !== id));
-      console.log(res.data.msg);
+      alert(res.data.msg)
     } catch (err) {
       console.log(err);
     }
@@ -293,7 +293,6 @@ export default function AdminDashboard() {
 
               <div className="col col-lg-2">
                 <div className="d-flex justify-content-around align-items-center h-100">
-                  <ion-icon name="pencil-outline"></ion-icon>
                   <ion-icon
                     name="trash-bin-outline"
                     onClick={() => deleteFn4Carou(i._id)}

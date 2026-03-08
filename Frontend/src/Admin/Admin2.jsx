@@ -64,7 +64,6 @@ const Admin2 = () => {
 
     async function os(){
       try{
-      const res = await axios.post(`${API}/showTimes/showTime`,showtimes)
 
         const {movie,theater,screen,start_time,ticket_price} = showtimes
         
@@ -72,6 +71,8 @@ const Admin2 = () => {
               alert("Please fill all fields");
           return 
         }
+      const res = await axios.post(`${API}/showTimes/showTime`,showtimes)
+        alert(res.data.message)
 
       }
       catch(error){
