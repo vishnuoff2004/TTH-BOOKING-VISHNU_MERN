@@ -16,6 +16,7 @@ const SelectedMovie = () => {
   const [bookedSeats, setBookedSeats] = useState([]);
   const [selectedScreen, setSelectedScreen] = useState(null);
   const [colorArr, setColorArr] = useState([]);
+
   const { selectedMovie } = useContext(MovieContext);
 
   const [bill, setBill] = useState({
@@ -33,7 +34,7 @@ const SelectedMovie = () => {
   });
 
   useEffect(() => {
-    if (selectedMovie && selectedMovie.length > 0) {
+    if (selectedMovie) {
       fetchMovie();
     }
   }, [selectedMovie]);
@@ -89,19 +90,22 @@ const SelectedMovie = () => {
 
   async function fetchMovie() {
     try {
-      if (!selectedMovie || selectedMovie.length === 0) return;
+      if (!selectedMovie) return;
 
-      const movieName =
-        selectedMovie[0]?.movie?.movie_name || selectedMovie[0]?.movie_name || "";
+      const movieName = selectedMovie?.movie_name || "";
 
       const res = await axios.get(`${API}/showTimes/selectedMovie`, {
         params: { movie_name: movieName },
       });
 
-      setMovie(res.data.showTime);
+      setMovie(res.data.showTime || []);
 
-      const uniqueTheaters = res.data.showTime.reduce((acc, item) => {
-        if (!acc.some((t) => t.theater.theater_name === item.theater.theater_name)) {
+      const uniqueTheaters = (res.data.showTime || []).reduce((acc, item) => {
+        if (
+          !acc.some(
+            (t) => t.theater.theater_name === item.theater.theater_name
+          )
+        ) {
           acc.push(item);
         }
         return acc;
@@ -110,7 +114,7 @@ const SelectedMovie = () => {
       setUniquetheater(uniqueTheaters);
 
       const getUser = localStorage.getItem("username");
-      const fetchedMovie = res.data.showTime[0]?.movie?.movie_name || "";
+      const fetchedMovie = res.data.showTime?.[0]?.movie?.movie_name || movieName;
 
       setBill((prev) => ({
         ...prev,
@@ -149,7 +153,8 @@ const SelectedMovie = () => {
 
     if (name === "theatername") {
       try {
-        const movieName = movie[0]?.movie?.movie_name;
+        const movieName = movie[0]?.movie?.movie_name || selectedMovie?.movie_name;
+
         const res = await axios.get(`${API}/showTimes/theaterScreen`, {
           params: { theater_name: value, movie_name: movieName },
         });
@@ -232,11 +237,15 @@ const SelectedMovie = () => {
     } catch (error) {
       console.log(error);
       console.log(error.response?.data?.msg || error.response?.data?.message);
-      alert(error.response?.data?.msg || error.response?.data?.message || "Booking failed");
+      alert(
+        error.response?.data?.msg ||
+          error.response?.data?.message ||
+          "Booking failed"
+      );
     }
   }
 
-  if (!selectedMovie || selectedMovie.length === 0) {
+  if (!selectedMovie) {
     return <div>No Show Time for this Movie</div>;
   }
 
@@ -310,15 +319,17 @@ const SelectedMovie = () => {
     setBill((prev) => ({ ...prev, bookedDate: [fullDate] }));
   }
 
+  const movieImage = selectedMovie?.image || movie[0]?.movie?.image || "";
+  const displayMovieName = selectedMovie?.movie_name || movie[0]?.movie?.movie_name || "";
+  const displayMoviePoster = selectedMovie?.image || movie[0]?.movie?.image || "";
+
   return (
     <div
       className="container-fluid p-0 m-0"
       style={{
-        backgroundImage: `url(${API}/movieImages/${selectedMovie[0]?.movie?.image || ""})`,
-        height: "100vh",
-        width: "100vw",
-        position: "absolute",
-        top: "0",
+        backgroundImage: movieImage ? `url(${movieImage})` : "none",
+        minHeight: "100vh",
+        width: "100%",
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -328,9 +339,14 @@ const SelectedMovie = () => {
 
       <div className="container">
         <div className="row">
-          <div className="col col-lg-2" style={{ height: "85vh" }}>
+          <div className="col col-lg-2" style={{ minHeight: "85vh" }}>
             <div className="d-flex justify-content-center mb-4 mt-2">
-              <select name="theatername" className="select-tag me-1" onChange={oc} value={bill.theatername}>
+              <select
+                name="theatername"
+                className="select-tag me-1"
+                onChange={oc}
+                value={bill.theatername}
+              >
                 <option value="">select theater</option>
                 {uniquetheater.map((item, index) => (
                   <option key={index} value={item.theater.theater_name}>
@@ -339,7 +355,12 @@ const SelectedMovie = () => {
                 ))}
               </select>
 
-              <select name="screenname" className="select-tag" onChange={oc} value={bill.screenname}>
+              <select
+                name="screenname"
+                className="select-tag"
+                onChange={oc}
+                value={bill.screenname}
+              >
                 <option value="">select screen</option>
                 {screen.map((item, index) => (
                   <option value={item.screen._id} key={index}>
@@ -414,12 +435,12 @@ const SelectedMovie = () => {
               ))}
             </div>
 
-            <h5 className="fw-bold">{movie[0]?.movie?.movie_name}</h5>
+            <h5 className="fw-bold">{displayMovieName}</h5>
 
             <div className="text-center w-100 mb-2">
               <img
-                src={selectedMovie[0]?.movie?.image}
-                alt=""
+                src={displayMoviePoster}
+                alt={displayMovieName}
                 className="text-center"
                 style={{ height: "220px", objectFit: "cover", width: "190px" }}
               />
@@ -661,10 +682,18 @@ const SelectedMovie = () => {
                             <h1 className="modal-title fs-5" id="staticBackdropLabel">
                               Confirm Bookings
                             </h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
 
-                          <div className="modal-body mx-auto col-lg-6 col-md-6" style={{ backgroundColor: "yellow" }}>
+                          <div
+                            className="modal-body mx-auto col-lg-6 col-md-6"
+                            style={{ backgroundColor: "yellow" }}
+                          >
                             <div className="d-flex align-items-center text-light h-100">
                               <div className="container-fluid bg-dark bill w-100">
                                 <div className="border-doted py-2 mt-2">
@@ -720,10 +749,18 @@ const SelectedMovie = () => {
                           </div>
 
                           <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
                               Close
                             </button>
-                            <button type="button" className="btn btn-success" onClick={handlePay}>
+                            <button
+                              type="button"
+                              className="btn btn-success"
+                              onClick={handlePay}
+                            >
                               Confirm Bookings
                             </button>
                           </div>
